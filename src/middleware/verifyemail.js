@@ -1,15 +1,20 @@
 const database = require("../database")
-const create = require("../controller/create")
 
-const verifyemail = (req, res, next) => {
+const verifyemail = async (req, res, next) => {
     const { email } = req.body;
-    for (item of database) {
-        if (item.email === email) {
-            return res.status(409).json({ status: `Email ja cadastrado` })
+    try {
+        const result = await database.query(`SELECT * FROM pessoas WHERE email ='${email}'`)
+        console.log(result[0])
+        if (result[0]) {
+            res.status(409).json(`email ja cadastrado`)
+        } else {
+            next();
         }
-    }
-    next();
-}
 
+    } catch (error) {
+        console.log(error)
+        res.status(500).json("error")
+    }
+}
 
 module.exports = { verifyemail }

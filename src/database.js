@@ -1,3 +1,12 @@
-const data =[{nome:'teste', email:'teste',senha:'teste',idade:0}];
+const pg = require('pg');
 
-module.exports = data
+
+const pool = new pg.Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'banco',
+    password: 'docker',
+    port: 5432,
+
+})
+module.exports = pool

@@ -7,7 +7,7 @@ const detail = async (req, res) => {
         const result = await database.query(`SELECT nome,email,cpf FROM pessoas WHERE email='${email}'`)
         res.status(200).json(result.rows)
 
-    } catch {
+    } catch (error) {
         res.status(500).json({ status: `error` })
 
     }

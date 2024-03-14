@@ -5,7 +5,7 @@ const verifyCadastro = async (req, res, next) => {
     try {
         const result = await database.query(`SELECT * FROM pessoas WHERE email ='${email}'`)
         if (result) {
-            next();
+            return next();
         }
         res.status(401).json({ status: `Usuario nao encontrado!` })
     } catch (error) {

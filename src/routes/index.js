@@ -6,12 +6,11 @@ const { detail } = require("../controller/detail")
 const { list } = require("../controller/list")
 const { update } = require("../controller/update")
 const { verifyemail } = require("../middleware/verifyemail")
-const { Verify } = require("../middleware/verify")
-
+const { verifyCadastro } = require("../middleware/verifyCadastro")
 
 route.post("/create", verifyemail, create);
-route.delete("/delete/:email", Verify, deletes);
-route.patch("/update/:email", Verify, update);
-route.get("/read/:email", Verify, detail);
+route.delete("/delete/:email", verifyCadastro, deletes);
+route.patch("/update/:email", verifyCadastro, update);
+route.get("/read/:email", verifyCadastro, detail);
 route.get("/list", list)
 module.exports = { route };

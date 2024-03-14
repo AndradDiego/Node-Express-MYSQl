@@ -8,11 +8,7 @@ const create = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({ status: `Nao cadastrado` })
-
     }
-
-
-
 }
 module.exports = { create }
 

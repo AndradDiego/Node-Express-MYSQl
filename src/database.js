@@ -1,4 +1,5 @@
 const pg = require('pg');
+const mysql = require('mysql2/promise')
 
 
 const pool = new pg.Pool({
@@ -9,4 +10,12 @@ const pool = new pg.Pool({
     port: 5432,
 
 })
-module.exports = pool
+const mysqlconection = mysql.createPool({
+    user: 'root',
+    host: 'localhost',
+    database: 'banco',
+    password: 'docker',
+    port: 3306
+})
+
+module.exports = { pool, mysqlconection }

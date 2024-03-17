@@ -1,4 +1,4 @@
-const database = require("../database")
+const { mysqlconection } = require("../database")
 const update = async (req, res) => {
     const { email } = req.params
     const keysName = Object.keys(req.body)
@@ -13,7 +13,7 @@ const update = async (req, res) => {
     }
 
     try {
-        await database.query(`UPDATE pessoas SET ${setDynamicParams()} WHERE email = '${email}'`)
+        await mysqlconection.execute(`UPDATE pessoas SET ${setDynamicParams()} WHERE email = '${email}'`)
         res.status(200).json({ status: `Usuario Atualizado` })
 
     } catch (error) {

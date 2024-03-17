@@ -1,9 +1,9 @@
-const database = require("../database")
+const { mysqlconection } = require("../database")
 
 const verifyCadastro = async (req, res, next) => {
     const { email } = req.params
     try {
-        const result = await database.query(`SELECT * FROM pessoas WHERE email ='${email}'`)
+        const result = await mysqlconection.execute(`SELECT * FROM pessoas WHERE email ='${email}'`)
         if (result) {
             return next();
         }

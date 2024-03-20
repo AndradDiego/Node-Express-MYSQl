@@ -1,5 +1,6 @@
 const { mysqlconection } = require("../database")
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const login = async (req, res) => {
     const { email } = req.params
     try {
@@ -8,7 +9,15 @@ const login = async (req, res) => {
         const { password: hashedPassword } = rows[0]
         const checkHashe = await bcrypt.compare(password, hashedPassword)
         if (checkHashe) {
-            res.status(200).json({ status: `LOGIN` })
+            const token = jwt.sign({
+                data: {
+                    nome: rows[0].nome,
+                    email: rows[0].email,
+                    cpf: rows[0].cpf
+                }
+            }, '5d242b5294d72df332ca2c492d2c0b9b7', { expiresIn: 86000 });
+            res.status(200).json({ status: `sucesso`, token })
+
         }
         res.status(500).json({ status: `Login ou Senha nao confere` })
 

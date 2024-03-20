@@ -1,8 +1,11 @@
 const { mysqlconection } = require("../database")
+const bcrypt = require('bcrypt')
 const create = async (req, res) => {
     const { nome, cpf, email, password } = req.body
     try {
-        await mysqlconection.execute(`insert into pessoas (nome,cpf,email,password) values('${nome}','${cpf}','${email}','${password}')`)
+        const saltRounds = 1;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        await mysqlconection.execute(`insert into pessoas (nome,cpf,email,password) values(?,?,?,?)`, [nome, cpf, email, hashedPassword]);
         res.status(201).json({ status: `usuario criado!!` })
 
     } catch (error) {

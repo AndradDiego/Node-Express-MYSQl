@@ -9,7 +9,6 @@ const create = async (req, res) => {
         res.status(201).json({ status: `usuario criado!!` })
 
     } catch (error) {
-        console.log(error)
         res.status(500).json({ status: `Nao cadastrado` })
     }
 }

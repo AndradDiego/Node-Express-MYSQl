@@ -2,7 +2,6 @@ const { mysqlconection } = require("../database")
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const login = async (req, res) => {
-    const { email } = req.params
     try {
         const { nome, password } = req.body
         const [rows] = await mysqlconection.execute(`SELECT password FROM pessoas WHERE nome = ?`, [nome]);
@@ -16,7 +15,7 @@ const login = async (req, res) => {
                     cpf: rows[0].cpf
                 }
             }, '5d242b5294d72df332ca2c492d2c0b9b7', { expiresIn: 86000 });
-            res.status(200).json({ status: `sucesso`, token })
+            return res.status(200).json({ status: `sucesso`, token })
 
         }
         res.status(500).json({ status: `Login ou Senha nao confere` })

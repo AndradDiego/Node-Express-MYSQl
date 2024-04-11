@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const login = async (req, res) => {
     try {
-        const { nome, password } = req.body
-        const [rows] = await mysqlconection.execute(`SELECT password FROM pessoas WHERE nome = ?`, [nome]);
+        const { email, password } = req.body
+        const [rows] = await mysqlconection.execute(`SELECT password FROM pessoas WHERE email = ?`, [email]);
         const { password: hashedPassword } = rows[0]
         const checkHashe = await bcrypt.compare(password, hashedPassword)
         if (checkHashe) {

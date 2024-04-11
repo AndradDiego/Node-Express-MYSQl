@@ -13,6 +13,6 @@ route.post("/login", login)
 route.post("/create", verifyemail, create);
 route.delete("/delete/:email", verifyCadastro, deletes);
 route.patch("/update/:email", verifyCadastro, update);
-route.get("/read/:email", verifyCadastro, detail);
+route.post("/detail", detail);
 route.get("/list", list)
 module.exports = { route };

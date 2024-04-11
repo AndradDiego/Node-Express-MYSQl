@@ -1,12 +1,26 @@
-const { mysqlconection } = require("../database")
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const login = async (req, res) => {
     try {
-        const { nome, password } = req.body
-        const [rows] = await mysqlconection.execute(`SELECT password FROM pessoas WHERE nome = ?`, [nome]);
-        const { password: hashedPassword } = rows[0]
+        const { email, password } = req.body
+        const rows = await prisma.pessoas.findMany({
+            where: {
+                email: email
+            },
+            select: {
+                password: true,
+                nome: true,
+                cpf: true
+
+            }
+        })
+        const hashedPassword = rows[0].password
         const checkHashe = await bcrypt.compare(password, hashedPassword)
+        console.log(password)
+        console.log(hashedPassword)
+
         if (checkHashe) {
             const token = jwt.sign({
                 data: {

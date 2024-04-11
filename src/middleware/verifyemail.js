@@ -1,11 +1,16 @@
 
-const { mysqlconection } = require("../database")
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 const verifyemail = async (req, res, next) => {
     const { email } = req.body;
     try {
-        const query = await mysqlconection.execute(`SELECT * FROM pessoas WHERE email ='${email}'`)
-        if (query[0] == []) {
+        const query = await prisma.pessoas.findUnique({
+            where: {
+                email,
+            }
+        })
+        if (query) {
             res.status(409).json({ status: `email ja cadastrado` })
         } else {
             next();

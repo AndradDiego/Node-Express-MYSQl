@@ -1,8 +1,6 @@
-const { PrismaClient } = require("@prisma/client")
-const prisma = new PrismaClient();
-
+const { mysqlconection } = require("../database")
 const list = async (req, res) => {
-    const allusers = await prisma.pessoas.findMany();
-    res.status(200).json(allusers)
+    const result = await mysqlconection.execute(`SELECT nome,cpf,email FROM pessoas`)
+    res.status(200).json(result[0])
 }
 module.exports = { list }

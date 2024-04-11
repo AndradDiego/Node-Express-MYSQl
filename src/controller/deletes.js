@@ -1,15 +1,9 @@
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient();
+const { mysqlconection } = require("../database")
 
 const deletes = async (req, res) => {
     const { email } = req.params
     try {
-        await prisma.pessoas.delete({
-            where: {
-                email
-            }
-
-        })
+        await mysqlconection.query(`DELETE FROM pessoas WHERE email = '${email}'`)
         res.status(200).json({ status: `Usuario Deletado` })
     } catch (error) {
         res.status(500).json({ status: `error` })
